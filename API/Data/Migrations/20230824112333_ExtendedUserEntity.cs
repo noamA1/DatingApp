@@ -50,7 +50,7 @@ namespace API.Data.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "Interoduction",
+                name: "Introduction",
                 table: "Users",
                 type: "TEXT",
                 nullable: true);
