@@ -1,6 +1,11 @@
+import { PaginatedResulut } from './../../_models/pagination';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
+import { Pagination } from 'src/app/_models/pagination';
+import { User } from 'src/app/_models/user';
+import { UserParams } from 'src/app/_models/userParams';
+import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
@@ -10,18 +15,53 @@ import { MembersService } from 'src/app/_services/members.service';
 })
 export class MemberListComponent implements OnInit {
   // members: Member[] = [];
-  members$: Observable<Member[]> | undefined;
+  // members$: Observable<Member[]> | undefined;
+  members: Member[] = [];
+  pagination: Pagination | undefined;
+  userParams: UserParams | undefined;
+  genderList = [
+    { value: 'male', display: 'Males' },
+    { value: 'female', display: 'Females' },
+  ];
 
-  constructor(private memberSrevice: MembersService) {}
+  constructor(private memberSrevice: MembersService) {
+    this.userParams = memberSrevice.getUserParams();
+  }
 
   ngOnInit(): void {
     // this.loadMembers();
-    this.members$ = this.memberSrevice.getMembers();
+    // this.members$ = this.memberSrevice.getMembers();
+    this.loadMembers();
   }
 
-  // loadMembers() {
-  //   this.memberSrevice.getMembers().subscribe({
-  //     next: (members) => (this.members = members),
-  //   });
-  // }
+  loadMembers() {
+    // this.memberSrevice.getMembers().subscribe({
+    //   next: (members) => (this.members = members),
+    // });
+
+    if (this.userParams) {
+      this.memberSrevice.setUserParams(this.userParams);
+      this.memberSrevice.getMembers(this.userParams).subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.members = response.result;
+            this.pagination = response.pagination;
+          }
+        },
+      });
+    }
+  }
+
+  resetFilters() {
+    this.userParams = this.memberSrevice.resetUserParams();
+    this.loadMembers();
+  }
+
+  pageChanged(event: any) {
+    if (this.userParams && this.userParams?.pageNumber !== event.page) {
+      this.userParams.pageNumber = event.page;
+      this.memberSrevice.setUserParams(this.userParams);
+      this.loadMembers();
+    }
+  }
 }
