@@ -133,7 +133,7 @@ namespace API.Data.Migrations
                 table: "Users");
 
             migrationBuilder.DropColumn(
-                name: "Interoduction",
+                name: "Introduction",
                 table: "Users");
 
             migrationBuilder.DropColumn(
