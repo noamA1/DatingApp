@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
@@ -41,6 +42,9 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? (user.roles = roles) : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSourse.next(user);
   }
@@ -48,5 +52,9 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSourse.next(null);
+  }
+
+  getDecodedToken(token: string) {
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }

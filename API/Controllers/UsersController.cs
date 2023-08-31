@@ -18,6 +18,7 @@ namespace API.Controllers
 
     // [ApiController]
     // [Route("api/[controller]")] // /api/users
+
     public class UsersController : BaseApiController
     {
         // private readonly DataContext _context;
@@ -66,6 +67,7 @@ namespace API.Controllers
         // {
         //     return await _context.Users.FindAsync(id);
         // }
+
         [HttpGet("{username}")] // /api/users/2
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
