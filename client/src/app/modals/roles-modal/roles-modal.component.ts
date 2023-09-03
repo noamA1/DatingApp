@@ -11,7 +11,7 @@ export class RolesModalComponent implements OnInit {
   availableRoles: any[] = [];
   selectedRoles: any[] = [];
 
-  constructor(protected bsModalRef: BsModalRef) {}
+  constructor(public bsModalRef: BsModalRef) {}
 
   ngOnInit(): void {}
 
