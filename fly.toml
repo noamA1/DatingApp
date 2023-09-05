@@ -1,0 +1,24 @@
+# fly.toml app configuration file generated for n-datingapp-course on 2023-09-05T09:51:24+03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "n-datingapp-course"
+primary_region = "cdg"
+
+[build]
+  image = "noama1990/datingapp:latest"
+
+[env]
+ASPNETCORE_URLS="http://+:8080"
+CloudinarySettings__CloudName="dtqql0oko"
+CloudinarySettings__ApiKey="744898449651912"
+
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
