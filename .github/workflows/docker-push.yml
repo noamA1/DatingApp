@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "main"
+      - 'main'
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
@@ -21,9 +21,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: "{{defaultContext}}:API"
+          context: '{{defaultContext}}:API'
           push: true
-          tags: trycatchlearn/datingapp:latest
+          tags: noama1990/datingapp:latest
   deploy:
     needs: docker
     name: Deploy app
